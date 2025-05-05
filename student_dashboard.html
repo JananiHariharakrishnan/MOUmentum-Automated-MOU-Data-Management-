@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: "Roboto", serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: url('./assets/student_dash.jpeg') no-repeat center center/cover;
+        }
+
+        .dashboard-container {
+            /* background: white; */
+            padding: 30px;
+            border-radius: 10px;
+            /* box-shadow: 0 4px 8px rgba(0,0,0,0.1); */
+            width: 350px;
+            text-align: center;
+            /* background: #ffffff1a; */
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 25px 45px #0000001a;
+            border: 1px solid #ffffff80;
+        }
+
+        .button {
+            width: 100%;
+            /* background: #3273dc; */
+            color: #5F5C5C;
+            /* color: white; */
+            border: none;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size:15px;
+        }
+        .button:hover {
+        background: linear-gradient(135deg, #0a58ca, #3273dc);
+        transform: scale(1.05);
+        color: white;
+        }
+
+        .title {
+        font-size: 30px;
+        font-weight: bold;
+        color: white;
+        /* color: #5F5C5C; */
+        text-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Modal styles - simplified */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            width: 80%;
+            max-width: 400px;
+            font-family: "Roboto", serif;
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #5F5C5C;
+            font-size: 20px;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #5F5C5C;
+        }
+
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+        .modal-body{
+            color:#5F5C5C;
+        }
+    
+        .notification-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .notification-list li{
+            padding: 10px;
+        }
+        .notification-list li a{
+            color: #3273dc;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 2px;
+        }
+
+        #overlay.active {
+            display: block;
+        }
+
+
+    .colour {
+      position: absolute;
+      filter: blur(150px);
+      z-index: -1;
+    }
+
+    .colour:nth-child(1) { top: 2rem; width: 2rem; height: 2rem; background: #3D3D3D; }
+    .colour:nth-child(2) { left: 12rem; bottom: 2rem; width: 30rem; height: 20rem; background: #3D3D3D; }
+    .colour:nth-child(3) { right: 10rem; bottom: 2rem; width: 30rem; height: 20rem; background: #3D3D3D; }
+
+    .box1, .box2, .box3 {
+      width: 7rem;
+      height: 7rem;
+      background: #ffffff1a;
+      box-shadow: 0 25px 45px #0000001a;
+      border: 1px solid #ffffff80;
+      border-radius: 10px;
+      position: absolute;
+    }
+
+    .box1 { left: 30%; bottom: 10%; }
+    .box2 { left: 30%; top: 15%; }
+    .box3 { right: 30%; bottom: 20%; }
+
+    </style>
+</head>
+<body>
+
+    <div class="colour"></div>
+    <div class="colour"></div>
+    <div class="colour"></div>
+
+    <div class="box1"></div>
+    <div class="box2"></div>
+    <div class="box3"></div>
+
+    <div class="dashboard-container">
+        <h2 class="title">Dashboard</h2>
+        <button class="button" onclick="window.location.href='website.html'">Sign Up a Form</button>
+        <button class="button" onclick="window.location.href='edit.html'">Edit Details</button>
+        <button class="button" onclick="window.location.href='view_student.html'">View Entered Information</button>
+        <button class="button" onclick="window.location.href='UploadFile.html'">Upload Documents</button>
+    </div>
+
+    <!-- Simple Modal -->
+    <div class="modal" id="notificationModal">
+        <div class="modal-header">
+            <h3>Important Notifications</h3>
+            <button class="close-button">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Here are your important updates:</p>
+            <p>
+      This is your monthly reminder to stay updated with essential MOU-related tasks. Please take a moment to review and act on the following:
+    </p>
+    <ul class="notification-list">
+      <li>
+        <strong>Reminder:</strong> Please update details of any new MOUs signed this month.
+        <br>
+        <a href="website.html" target="_blank">Go to MOU Entry Form</a>
+      </li>
+      <li>
+        <strong>Renewal Alert:</strong> The MOU with <em>multiple industries</em> might be approaching its renewal date.
+        <br>
+        <a href="renewal.html" target="_blank">Check Renewal Status</a>
+      </li>
+      <li>
+        <strong>Monthly Activity:</strong> Don’t forget to log activities carried out under existing MOUs for this month.
+        <br>
+        <a href="view_student.html">Submit Monthly Activity</a>
+      </li>
+    </ul>
+        </div>
+    </div>
+
+    <div id="overlay"></div>
+     <script src="https://code.createjs.com/1.0.0/tweenjs.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script>
+        const modal = document.getElementById('notificationModal');
+        const overlay = document.getElementById('overlay');
+        const closeBtn = document.querySelector('.close-button');
+
+        function showModal() {
+            modal.classList.add('active');
+            overlay.classList.add('active');
+        }
+
+        function hideModal() {
+            modal.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+
+        // Show modal after 1 second
+        setTimeout(showModal, 1000);
+
+        // Close modal when clicking X or overlay
+        closeBtn.addEventListener('click', hideModal);
+        overlay.addEventListener('click', hideModal);
+
+        // Close with ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') hideModal();
+        });
+
+
+    TweenMax.from('body',{opacity:0,duration:1,y:-20});
+    TweenMax.from('.box1',{opacity:0,duration:1,y:-25});
+    TweenMax.from('.box2',{opacity:0,duration:1,y:-25});
+    TweenMax.from('.box3',{opacity:0,duration:1,y:-25});
+     gsap.to(".box1, .box2, .box3", {
+      y: 50,
+      duration: 4,
+      repeat: -1,
+      yoyo: true,
+    });
+    </script>
+</body>
+</html>

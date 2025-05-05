@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"rel="stylesheet"/>
+
+  <style>
+    *{
+      font-family: 'Roboto', sans-serif;
+    }
+  body {
+    background: url('./assets/stu.jpg') no-repeat center center/cover;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .glassmorphic-hero {
+    color: white; 
+  }
+
+  .glassmorphic-hero .title {
+    color: white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+  .glass-container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px) saturate(100%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 40px;
+  color: white ;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+}
+
+  .glass-container label,
+  .glass-container .label {
+    color: white !important;
+    font-weight: bold;
+  }
+
+  .glass-container input,
+  .glass-container textarea,
+  .glass-container select {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: #3c3b3b;
+    border-radius: 5px;
+  }
+  .glass-container input::placeholder,
+  .glass-container textarea::placeholder {
+    color: #888;
+  }
+   input[type="checkbox"]{
+    margin-right: 5px;
+   }
+
+   h2{
+       /* color: #757576 !important;
+       margin-top:20px; */
+
+   color: #9a9a9a !important; 
+  margin-top: 20px;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); 
+
+   }
+   #submit-button{
+    background: linear-gradient(135deg, #0a58ca, #3273dc);
+    border:none;
+    color: white;
+    margin-top:5px;
+    font-weight: 400;
+    font-size: 18px;
+   }
+   #submit-button:hover{
+    transform: scale(1.05);
+   }
+   #cancel-button{
+    margin-top:5px;
+    font-weight: 400;
+    font-size: 18px;
+   }
+   #cancel-button:hover{
+    transform: scale(1.05);
+   }
+  </style>
+  </head>
+  <body>
+    <section class="hero glassmorphic-hero">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Student Internship Details</h1>
+        </div>
+      </div>
+    </section>
+    <div class="glass-container container my-5 p-5">
+    <form id="form" class="container m-4 pl-4" method="POST">
+      <div class="field">
+        <label class="label">Student Name</label>
+        <div class="control">
+          <input
+            class="input"
+            type="text"
+            placeholder="Student Name"
+            name="Name"
+          />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Email</label>
+        <div class="control">
+          <input
+            class="input"
+            type="email"
+            placeholder="Your Email"
+            name="Email"
+          />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Password</label>
+        <div class="control">
+          <input
+            class="input"
+            type="password"
+            placeholder="Your Password"
+            name="Password"
+          />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Date of Birth</label>
+        <div class="control">
+          <input
+            class="input"
+            type="date"
+            placeholder="Your Date of Birth"
+            name="DOB"
+          />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Gender</label>
+        <div class="control">
+          <label class="radio">
+            <input type="radio" name="Gender" value="male" /> Male
+          </label>
+          <label class="radio">
+            <input type="radio" name="Gender" value="female" /> Female
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Additional Information</label>
+        <div class="control">
+          <textarea
+            class="textarea"
+            placeholder="Any additional information"
+            name="Notes"
+          ></textarea>
+        </div>
+      </div>
+    
+      <div class="field">
+        <label class="label">Register Number</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Your Register Number" name="Register Number" required />
+        </div>
+      </div>
+      
+      <div class="field">
+        <label class="label">Mobile Number</label>
+        <div class="control">
+          <input class="input" type="tel" placeholder="Your Mobile Number" name="Mobile Number" required />
+        </div>
+      </div>
+      
+      <div class="field">
+        <label class="label">Section</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Your Section" name="Section" required />
+        </div>
+      </div>
+      
+      <div class="field">
+        <label class="label">Obtained Internship</label>
+        <div class="control">
+          <div class="select">
+            <select name="Obtained Internship">
+              <option value="" disabled selected>Select</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Company Name</label>
+        <div class="control">
+          <input
+            class="input"
+            placeholder="Ex: Amazon"
+            name="Company"
+          ></input>
+        </div>
+      </div>
+      
+      <div class="field">
+        <label class="label">Period</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Ex: 3 Months" name="Period" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Title</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Internship Title" name="Title" required />
+        </div>
+      </div>
+      
+      <div class="field">
+        <label class="label">Start Date</label>
+        <div class="control">
+          <input class="input" type="date" name="Start Date" />
+        </div>
+      </div>
+      
+      <div class="field">
+        <label class="label">End Date</label>
+        <div class="control">
+          <input class="input" type="date" name="End Date" />
+        </div>
+      </div>
+      
+      <div class="field">
+        <label class="label">Placement Source</label>
+        <div class="control">
+          <div class="select">
+            <select name="Placement Source">
+              <option value="" disabled selected>Select</option>
+              <option value="On-Campus">On-Campus</option>
+              <option value="Off-Campus">Off-Campus</option>
+              <option value="Referral">Referral</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <div class="field">
+        <label class="label">Stipend</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Ex: 10,000 INR" name="Stipend" />
+        </div>
+      </div>
+      
+      <div class="field">
+        <label class="label">Internship Type</label>
+        <div class="control">
+          <input class="input" type="text" placeholder="Ex: Research" name="Internship Type" />
+        </div>
+      </div>
+      
+      <div class="field">
+        <label class="label">Abroad or India</label>
+        <div class="control">
+          <div class="select">
+            <select name="Location">
+              <option value="" disabled selected>Select</option>
+              <option value="India">India</option>
+              <option value="Abroad">Abroad</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Agree to Terms</label>
+        <div class="control">
+          <label class="checkbox">
+            <input type="checkbox" name="Agree To Terms" value="yes" required/> I agree
+            to the terms and conditions
+          </label>
+        </div>
+      </div>
+
+      <h2 style="font-weight: bold; font-size: 20px;color:rgb(42, 165, 124)">Documents to be submitted</h2>
+      <div class="field">
+        <div class="control">
+          <label class="checkbox">
+            <input type="checkbox" name=" Signed permission and offer letter" value="yes" /><b> Signed permission letter,offer letter submitted</b>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <label class="checkbox">
+            <input type="checkbox" name="Completion Certifcate" value="yes" /><b>Completion Certifcate submitted</b>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <label class="checkbox">
+            <input type="checkbox" name="Internship report" value="yes" /><b>Internship report submitted</b>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <label class="checkbox">
+            <input type="checkbox" name="Student Feedback" value="yes" /><b>Student Feedback submitted</b>
+          </label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <label class="checkbox">
+            <input type="checkbox" name="Employer Feedback" value="yes" /><b>Employer Feedback submitted</b>
+          </label>
+        </div>
+      </div>
+      
+      <div class="field is-grouped">
+        <div class="control">
+          <button class="button" type="submit" id="submit-button">
+            Sign Up
+          </button>
+        </div>
+        <div class="control">
+          <button class="button is-danger" id="cancel-button">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+    <div
+      id="message"
+      style="
+        display: none;
+        margin: 20px;
+        font-weight: bold;
+        color: green;
+        padding: 8px;
+        background-color: beige;
+        border-radius: 4px;
+        border-color: aquamarine;
+      "></div>
+
+    <script>
+       document.getElementById("form").addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent the default form submission
+        document.getElementById("message").textContent = "Submitting..";
+        document.getElementById("message").style.display = "block";
+        document.getElementById("submit-button").disabled = true;
+
+        // Collect the form data
+        var formData = new FormData(this);
+        var keyValuePairs = [];
+        for (var pair of formData.entries()) {
+          keyValuePairs.push(pair[0] + "=" + pair[1]);
+        }
+
+        var formDataString = keyValuePairs.join("&");
+
+        // Send a POST request to your Google Apps Script
+        fetch(
+          "https://script.google.com/macros/s/AKfycbwjbnSzMEIZDPFB2Z3fQLVyTd2MjWhor_NXvxzZSgVdSN2RAAM7VifGiXJ8t4L0Kodq/exec",
+          {
+            redirect: "follow",
+            method: "POST",
+            body: formDataString,
+            headers: {
+              "Content-Type": "text/plain;charset=utf-8",
+            },
+          }
+        )
+          .then(function (response) {
+            // Check if the request was successful
+            if (response) {
+              return response; // Assuming your script returns JSON response
+            } else {
+              throw new Error("Failed to submit the form.");
+            }
+          })
+          .then(function (data) {
+            // Display a success message
+            document.getElementById("message").textContent =
+              "Data submitted successfully!";
+            document.getElementById("message").style.display = "block";
+            document.getElementById("message").style.backgroundColor = "green";
+            document.getElementById("message").style.color = "beige";
+            document.getElementById("submit-button").disabled = false;
+            document.getElementById("form").reset();
+
+            setTimeout(function () {
+              document.getElementById("message").textContent = "";
+              document.getElementById("message").style.display = "none";
+            }, 2600);
+          })
+          .catch(function (error) {
+            // Handle errors, you can display an error message here
+            console.error(error);
+            document.getElementById("message").textContent =
+              "An error occurred while submitting the form.";
+            document.getElementById("message").style.display = "block";
+          });
+      });
+    </script>
+    <script src="https://code.createjs.com/1.0.0/tweenjs.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+     <script>
+        TweenMax.from('body',{opacity:0,duration:1,y:-20});
+        TweenMax.from('h1',{opacity:0,duration:1,y:-30});
+        TweenMax.from('.glass-container',{opacity:0,duration:1,y:-40});
+     </script>
+  </body>
+</html>

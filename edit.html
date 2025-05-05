@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Search & Edit MOU Details</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url('./assets/colleagues-reading-together-medium-shot.jpg') no-repeat center center/cover;
+      padding: 20px;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      margin: 0;
+      justify-content: center;
+      align-items: center;
+      /* overflow:hidden; */
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(20px);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color:white;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 70%;
+      margin-right: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .center-btn {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      color: #000;
+      font-weight: bold;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      transition: 0.3s;
+      color: #5f5c5c;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(12px);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    td[contenteditable="true"] {
+      background: #fffbe6;
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .mou-item {
+      background: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    .mou-item button {
+      background-color: rgba(52, 152, 219, 0.3);
+      color: black;
+    }
+
+    .mou-item button:hover {
+      background-color: rgba(41, 128, 185, 0.5);
+    }
+
+    .loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 10, 0.6);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .spinner {
+    border: 6px solid rgba(255, 255, 255, 0.2);
+    border-top: 6px solid #ffffff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Search & Edit MOU Details</h2>
+
+    <div style="text-align:center;">
+      <input type="text" id="facultyInput" placeholder="Enter Faculty Name (e.g., Dr. PM)">
+      <button onclick="fetchMOUs()">Search</button>
+    </div>
+    <div id="loader" class="loader-wrapper" style="display: none;">
+    <div class="spinner"></div>
+    </div>
+
+    <p id="errorMsg" class="error"></p>
+
+    <div id="mousList"></div>
+
+    <table id="detailsTable" style="display:none;">
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+    <div class="center-btn">
+      <button onclick="saveDetails()" style="display:none;" id="saveBtn">Save Changes</button>
+    </div>
+  </div>
+
+  <script>
+    let currentMOU = null;
+    // const scriptURL = 'https://script.google.com/macros/s/AKfycbwWK8-Qb59w41ivwO00-dlaZQAcbU4WDNZzE_1dxCp5_LLvvsDEXyZSD-SloNCDiZMt/exec';
+   // const scriptURL = 'https://script.google.com/macros/s/AKfycbzTx0neLgv529yIwc8nZM7d2tJJNHMMt9f-Sq4GJeHfKK4z-HaCXtFtVaIyw1P1IK2R/exec';
+   const scriptURL = 'https://script.google.com/macros/s/AKfycbyD6v-J2TJ5bYvFeu7qZ1RuoXed1PsL-PTdv0Elr3dQ4-MSCzRpI6xxWtd-5e6IKmwA/exec';
+    function showError(message) {
+      document.getElementById('errorMsg').textContent = message;
+    }
+
+    function fetchMOUs() {
+      const facultyName = document.getElementById('facultyInput').value.trim();
+      if (!facultyName) {
+        showError("Please enter faculty name.");
+        return;
+      }
+       $('#loader').fadeIn();
+      fetch(`${scriptURL}?action=getMOUsByFaculty&faculty=${encodeURIComponent(facultyName)}`)
+        .then(res => res.json())
+        .then(data => {
+          $('#loader').fadeOut();
+          if (data.error) {
+            showError(data.error);
+          } else if (data.length === 0) {
+            showError("No MOUs found for this faculty member.");
+          } else if (data.length === 1) {
+            displayMOUDetails(data[0]);
+          } else {
+            displayMOUsList(data);
+          }
+        })
+        .catch(error => { 
+            $('#loader').fadeOut();
+          showError('Error fetching data: ' + error.message);
+        });
+    }
+
+    function displayMOUsList(mous) {
+      const mousList = document.getElementById('mousList');
+      mousList.innerHTML = '<h3>MOUs for this Faculty Member</h3>';
+
+      mous.forEach((mou, index) => {
+        const mouDiv = document.createElement('div');
+        mouDiv.className = 'mou-item';
+        mouDiv.innerHTML = `
+          <p><strong>Institute:</strong> ${mou.Institute || 'Not specified'}</p>
+          <p><strong>Duration:</strong> ${mou.Duration || 'Not specified'}</p>
+          <p><strong>Academic Year:</strong> ${mou['Academic Year'] || 'Not specified'}</p>
+          <button onclick='displayMOUDetails(${JSON.stringify(mou).replace(/'/g, "\\'")})'>Edit This MOU</button>
+        `;
+        mousList.appendChild(mouDiv);
+      });
+
+      document.getElementById('errorMsg').textContent = '';
+      document.getElementById('detailsTable').style.display = 'none';
+      document.getElementById('saveBtn').style.display = 'none';
+    }
+
+    function displayMOUDetails(mou) {
+      currentMOU = mou;
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = '';
+
+      const editableFields = ['Institute', 'Duration', 'Faculty Name', 'Faculty Details', 'Academic Year', 'Purpose', 'Outcomes'];
+
+      editableFields.forEach(field => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <th>${field}</th>
+          <td contenteditable="true" data-field="${field}">${mou[field] || ''}</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      document.getElementById('detailsTable').style.display = 'table';
+      document.getElementById('saveBtn').style.display = 'inline-block';
+      document.getElementById('errorMsg').textContent = '';
+    }
+    function saveDetails() {
+  if (!currentMOU) return;
+
+  const updatedData = {};
+  const cells = document.querySelectorAll('#tableBody td[contenteditable="true"]');
+  cells.forEach(cell => {
+    const field = cell.getAttribute('data-field');
+    updatedData[field] = cell.textContent.trim();
+  });
+
+  updatedData["action"] = "addMOU"; // change from update to add
+
+  const keyValuePairs = [];
+  for (let key in updatedData) {
+    keyValuePairs.push(encodeURIComponent(key) + "=" + encodeURIComponent(updatedData[key]));
+  }
+  const formDataString = keyValuePairs.join("&");
+  
+  fetch(scriptURL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+    },
+    body: formDataString
+  })
+    .then(res => res.json() )
+    .then(response => {
+      if (response.success) {
+        alert("MOU edited successfully!!!!");
+      } else {
+        alert("Failed to edit MOU.");
+      }
+    })
+    .catch(error => {
+      alert("Error adding MOU: " + error.message);
+    });
+}
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.createjs.com/1.0.0/tweenjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script> 
+    TweenMax.from('body',{opacity:0,duration:1,y:-25});
+    TweenMax.from('.container',{opacity:0,duration:1,y:-40});
+</script>
+</body>
+</html>

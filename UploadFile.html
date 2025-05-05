@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>File Upload Portal</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+  <style>
+    body {
+      background-image: url(./assets/data.jpg);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f8f9fa;
+      color: white;
+    }
+    label{
+      color:white !important;
+      font-size: 20px;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      width: 400px;
+    }
+
+    h1 {
+      /* color: white; */
+       color: white;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 25px;
+      font-weight: bold;
+    }
+    .field{
+      padding: 10px;
+    }
+    .field label{
+       color: #5F5C5C;
+    }
+    input{
+       color: #5F5C5C !important;
+    }
+    button{
+       background-color: #5c5b5b !important;
+       padding:10px;
+       font-weight: 500;
+       color: white !important;
+       font-weight: 600;
+       border:none !important;
+       margin-top:10px;
+
+    }
+    button:hover{
+       background-color: #3273dc !important;
+       color:white !important;
+       transform: scale(1.02) !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Upload Your Documents</h1>
+    <form method="post" action="https://script.google.com/macros/s/AKfycbw5n33k82zYD0V1X1UioORNCda22mYTRPGE3pkhLoIBwdpVT8HRwPMKh3bBApAOi8GR/exec">
+      <div class="field">
+        <label class="label">Username</label>
+        <div class="control">
+          <input class="input" type="text" name="username" placeholder="Enter your username" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">MOU Letter</label>
+        <div class="control">
+          <input class="input" type="file" name="mou_letter" onchange="handleFileUpload(this, 0)" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Government ID Proof</label>
+        <div class="control">
+          <input class="input" type="file" name="govt_id" onchange="handleFileUpload(this, 1)">
+        </div>
+      </div>
+
+      <input type="hidden" id="fileData" name="fileData" />
+
+      <div class="field">
+        <div class="control">
+          <button class="button is-fullwidth">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+   <script src="https://code.createjs.com/1.0.0/tweenjs.min.js"></script>
+  <script>
+    function handleFileUpload(input, index) {
+      var file = input.files[0];
+      if (!file) return;
+
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        var fileData = e.target.result.split(",")[1];
+        var mimeType = e.target.result.split(":")[1].split(";")[0];
+        var fileObject = {
+          fileName: file.name,
+          fileData: fileData,
+          mimeType: mimeType,
+        };
+
+        var fileDataArray = JSON.parse(document.getElementById("fileData").value || "[]");
+        fileDataArray[index] = fileObject;
+        document.getElementById("fileData").value = JSON.stringify(fileDataArray);
+      };
+      reader.readAsDataURL(file);
+    }
+    TweenMax.from('.container',{opacity:0,duration:1,y:-25});
+    TweenMax.from('body',{opacity:0,duration:1,y:-20});
+  </script>
+</body>
+</html>
